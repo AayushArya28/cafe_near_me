@@ -54,6 +54,10 @@ export default function MapContainer() {
   const [selectedDetails, setSelectedDetails] = useState(null);
   const [query, setQuery] = useState("cafe");
 
+  const [searchText, setSearchText] = useState("");
+  const searchInputRef = useRef(null);
+
+
   const [loading, setLoading] = useState(false);
   const paginationRef = useRef(null);
   const [hasMore, setHasMore] = useState(false);
@@ -202,7 +206,7 @@ export default function MapContainer() {
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-[95%] max-w-xl">
         <div className="bg-white shadow-lg rounded-xl p-3 ml-15 flex flex-wrap items-center gap-2">
           {/* Location / place autocomplete */}
-          <div className="flex-1 min-w-[220px]">
+          <div className="relative w-full">
             <StandaloneSearchBox
               onLoad={(ref) => (searchBoxRef.current = ref)}
               onPlacesChanged={() => {
@@ -220,12 +224,34 @@ export default function MapContainer() {
               }}
             >
               <input
+                ref={searchInputRef}
                 type="text"
-                placeholder="Search a location or place (e.g., Connaught Place)"
-                className="w-full p-2 rounded-lg border outline-none"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}   // Track input manually
+                placeholder="Set your location"
+                className="w-full p-2 pr-8 rounded-lg border outline-none"
               />
             </StandaloneSearchBox>
+
+            {/* Reset (X) button */}
+            {searchText && (
+              <button
+                onClick={() => {
+                  setSearchText("");              // clear state
+                  if (searchInputRef.current) {
+                    searchInputRef.current.value = "";
+                  }
+                  setCenter(defaultCenter);       // reset map center (optional)
+                  setFilteredCafes([]);           // clear results (optional)
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+              >
+                ❌
+              </button>
+            )}
           </div>
+
+
 
           {/* Keyword input (what to find around that area) */}
           <div className="flex items-center gap-2">
