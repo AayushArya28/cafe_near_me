@@ -85,8 +85,8 @@ Also, restrict your key to your domain (for production).
 ---
 
 ## 📸 Screenshots
-<img src="src\assets\ss1.png" width=75px>
-<img src="src\assets\ss2.png" width=75px>
+<img src="src\assets\ss1.png" width=175px>
+<img src="src\assets\ss2.png" width=175px>
 ---
 
 ## 🤝 Contributing
